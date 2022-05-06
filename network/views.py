@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from datetime import datetime
 
 from .models import User
 
@@ -61,3 +62,17 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+def new_post(request):
+    if request.method == "POST":
+        # TODO: add to db new post
+
+        # username
+        # time
+        # text
+
+        print('post:', request.POST['new_post'])
+        print('username:', request.user.username)
+        print('time:', datetime.now())
+
+        return HttpResponseRedirect(reverse("index"))
