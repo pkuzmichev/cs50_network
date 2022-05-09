@@ -1,6 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+
 {% if user.is_authenticated %}
 {% comment %} TODO: stay on the same page! {% endcomment %}
 <form action="{% url 'index' %}" method="post">
