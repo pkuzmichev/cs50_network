@@ -1,19 +1,47 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-<!-- TODO: new post -> add backend -->
 {% if user.is_authenticated %}
-<form action="{% url 'new_post' %}" method="post">
+{% comment %} TODO: stay on the same page! {% endcomment %}
+<form action="{% url 'index' %}" method="post">
     {% csrf_token %}
 <h1 class="header">All Posts</h1>
 <div class="new-post border">
     <h3>New Post</h3>
     <div class="form-floating">
         <textarea class="form-control" id="floatingTextarea2"
-            style="height: 10%; width: 50%;" required name='new_post'></textarea>
+        style="height: 10%; width: 50%;" maxlength="148" required name='new_post'></textarea>
     </div>
     <input class="btn btn-primary" type="submit" style="margin-top: 10px;" value="Post">
 </div>
 </form>
+
+{% comment %} TODO: bug with time {% endcomment %}
+
+
+{% comment %} TODO: add frontend {% endcomment %}
+{% for post in posts %}
+<div class="new-post border">
+{% comment %} username {% endcomment %}
+<b>{{ post.1 }}</b>
+<br><br>
+Edit
+{% comment %} time {% endcomment %}
+<br>
+{{ post.2 }}
+<br>
+{% comment %} text {% endcomment %}
+{{ post.3 }}
+<br>
+{% comment %} likes {% endcomment %}
+{{ post.4 }}
+<br>
+Comment
+{% comment %} TODO: add comments {% endcomment %}
+<br>
+</div>
+{% endfor %}
+<hr>
+    
 {% endif %}
 {% endblock %}

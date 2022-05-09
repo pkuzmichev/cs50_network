@@ -5,11 +5,15 @@ from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
 
-from .models import User
+from .models import User, Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+
+    # TODO: remove all posts from DB (and find plugin for it)
+    return render(request, "network/index.html", {
+        "posts": Post.objects.filter(username='admin').values_list()
+    })
 
 
 def login_view(request):
@@ -63,16 +67,19 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+
 def new_post(request):
     if request.method == "POST":
-        # TODO: add to db new post
+        Post.objects.create(
+            username=request.user.username,
+            text=request.POST['new_post'],
+            # TODO: django time https://stackoverflow.com/questions/4770297/convert-utc-datetime-string-to-local-datetime
+            time=datetime.now().replace(microsecond=0).astimezone()
+        )
+        return render(request, "network/index.html", {
+            "posts": Post.objects.filter(username='admin').values_list()
+        })
 
-        # username
-        # time
-        # text
+        # TODO: create JS and python API
 
-        print('post:', request.POST['new_post'])
-        print('username:', request.user.username)
-        print('time:', datetime.now())
-
-        return HttpResponseRedirect(reverse("index"))
+        # TODO: remove all posts from DB (and find plugin for it)
