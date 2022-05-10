@@ -69,16 +69,20 @@ def register(request):
 
 
 def new_post(request):
+    print('new post')
     if request.method == "POST":
+        print('post method!')
         Post.objects.create(
             username=request.user.username,
             text=request.POST['new_post'],
             # TODO: django time https://stackoverflow.com/questions/4770297/convert-utc-datetime-string-to-local-datetime
             time=datetime.now().replace(microsecond=0).astimezone()
         )
-        return render(request, "network/index.html", {
-            "posts": Post.objects.filter(username='admin').values_list()
-        })
+        # return render(request, "network/index.html", {
+        #     "posts": Post.objects.filter(username='admin').values_list()
+        # })
+
+    return HttpResponseRedirect(reverse("index"))
 
         # TODO: create JS and python API
 

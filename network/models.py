@@ -9,9 +9,12 @@ class User(AbstractUser):
 
 class Post(models.Model):
     username = models.CharField(max_length=30)
-    time = models.CharField(
+    time = models.DateField(
         default=datetime.now().replace(microsecond=0).astimezone,
         max_length=30
     )
     text = models.CharField(max_length=148)
     likes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.text
