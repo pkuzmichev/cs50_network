@@ -24,18 +24,18 @@
 {% for post in posts %}
 <div class="new-post border">
 {% comment %} username {% endcomment %}
-<b>{{ post.1 }}</b>
+<b> username {{ post.2 }}</b>
 <br><br>
 Edit
-{% comment %} time {% endcomment %}
-<br>
-{{ post.2 }}
-<br>
 {% comment %} text {% endcomment %}
-{{ post.3 }}
+<br>
+text {{ post.3 }}
+<br>
+{% comment %} time {% endcomment %}
+time {{ post.1|date:"d/m/Y G:i" }}
 <br>
 {% comment %} likes {% endcomment %}
-{{ post.4 }}
+likes {{ post.4 }}
 <br>
 Comment
 {% comment %} TODO: add comments {% endcomment %}

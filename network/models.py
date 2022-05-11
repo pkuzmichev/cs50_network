@@ -1,4 +1,5 @@
 from audioop import maxpp
+from tkinter.tix import Tree
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from datetime import datetime
@@ -9,10 +10,7 @@ class User(AbstractUser):
 
 class Post(models.Model):
     username = models.CharField(max_length=30)
-    time = models.DateField(
-        default=datetime.now().replace(microsecond=0).astimezone,
-        max_length=30
-    )
+    time = models.DateTimeField(auto_created=True, auto_now=True)
     text = models.CharField(max_length=148)
     likes = models.IntegerField(default=0)
 
