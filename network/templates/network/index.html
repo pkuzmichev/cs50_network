@@ -17,29 +17,25 @@
 </div>
 </form>
 
-{% comment %} TODO: bug with time {% endcomment %}
-
-
-{% comment %} TODO: add frontend {% endcomment %}
 {% for post in posts %}
 <div class="new-post border">
 {% comment %} username {% endcomment %}
-<b> username {{ post.2 }}</b>
+<b>{{ post.2 }}</b>
 <br><br>
-Edit
+<a href=''>Edit</a>
 {% comment %} text {% endcomment %}
 <br>
-text {{ post.3 }}
+{{ post.3 }}
 <br>
-{% comment %} time {% endcomment %}
-time {{ post.1|date:"d/m/Y G:i" }}
+{% comment %} time TODO: style {% endcomment %}
+<div class="gray">{{ post.1|date:"d/m/Y G:i" }}
 <br>
-{% comment %} likes {% endcomment %}
-likes {{ post.4 }}
+{% comment %} likes TODO: style {% endcomment %}
+{{ post.4 }}
 <br>
-Comment
-{% comment %} TODO: add comments {% endcomment %}
-<br>
+Comment</div>
+{% comment %} TODO: add comments TODO: style {% endcomment %}
+
 </div>
 {% endfor %}
 <hr>

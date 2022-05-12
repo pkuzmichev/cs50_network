@@ -9,11 +9,6 @@ from .models import User, Post
 
 
 def index(request):
-
-    # TODO: remove all posts from DB (and find plugin for it)
-
-    print('date', Post.objects.filter(username='admin').values_list())
-
     return render(request, "network/index.html", {
         "posts": Post.objects.filter(username='admin').values_list()
     })
@@ -78,15 +73,5 @@ def new_post(request):
         Post.objects.create(
             username=request.user.username,
             text=request.POST['new_post']
-            # TODO: fix time!
-            # TODO: django time https://stackoverflow.com/questions/4770297/convert-utc-datetime-string-to-local-datetime
         )
-        # return render(request, "network/index.html", {
-        #     "posts": Post.objects.filter(username='admin').values_list()
-        # })
-
     return HttpResponseRedirect(reverse("index"))
-
-        # TODO: create JS and python API
-
-        # TODO: remove all posts from DB (and find plugin for it)
