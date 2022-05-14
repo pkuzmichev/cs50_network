@@ -10,7 +10,7 @@ from .models import User, Post
 
 def index(request):
     return render(request, "network/index.html", {
-        "posts": Post.objects.filter(username='admin').values_list()
+        "posts": Post.objects.filter(username='admin').order_by('-time').values_list()
     })
 
 

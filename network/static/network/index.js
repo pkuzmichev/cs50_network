@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
             if (button[i].classList.contains("liked")) {
                 console.log('liked');
                 button[i].classList.remove("liked");
-                button[i].setAttribute('src', 'static/network/red-heart-48.png');
+                button[i].setAttribute('src', 'static/network/like.png');
             } else {
                 console.log('add liked');
-                button[i].setAttribute('src', 'static/network/filled-heart-32.png');
+                button[i].setAttribute('src', 'static/network/unlike.png');
                 button[i].classList.add("liked");
             }
         });
