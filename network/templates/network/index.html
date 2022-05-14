@@ -30,14 +30,11 @@
     {% comment %} time {% endcomment %}
     <div class="gray">{{ post.1|date:"d/m/Y G:i" }}
         <br>
-        {% comment %} likes, TODO: if click to image => change image (use js) and central {% endcomment %}
-
-        {% comment %} <img src="static/network/filled-heart-32.png" onclick="this.src='static/network/red-heart-48.png'"> {% endcomment %}
-        <img class="like" id="heart" width="16" height="16">{{ post.4 }}
+        {% comment %} TODO: likes button to central with count likes {% endcomment %}
+        <img src="static/network/filled-heart-32.png" class="heart-like-button liked" id="heart" width="16" height="16">{{ post.4 }}
         <br>
         Comment
     </div>
-    {% comment %} TODO: add comments TODO: style {% endcomment %}
 
 </div>
 {% endfor %}
