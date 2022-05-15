@@ -5,8 +5,8 @@
 {% comment %} view: username, followers, following, follow button {% endcomment %}
 <h1 class="header">{{ username }}
     {% comment %} TODO: add field for db user {% endcomment %}
-    <span class="badge badge-secondary">Followers: 0</span>
-    <span class="badge badge-secondary">Following: 0</span>
+        <span class="badge badge-secondary">Followers: 0</span>
+        <span class="badge badge-secondary">Following: 0</span>
     {% if user.username != username %}
         <button type="button" class="btn btn-primary">Follow</button>
         <button type="button" class="btn btn-danger">Unfollow</button>
