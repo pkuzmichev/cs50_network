@@ -10,7 +10,7 @@ from .models import User, Post
 
 def index(request):
     return render(request, "network/index.html", {
-        "posts": Post.objects.filter(username='admin').order_by('-time').values_list()
+        "posts": Post.objects.filter(username=request.user.username).order_by('-time').values_list()
     })
 
 
@@ -67,11 +67,15 @@ def register(request):
 
 
 def new_post(request):
-    print('new post')
     if request.method == "POST":
-        print('post method!')
         Post.objects.create(
             username=request.user.username,
             text=request.POST['new_post']
         )
     return HttpResponseRedirect(reverse("index"))
+
+def user(request, user):
+    return render(request, "network/user.html", {
+        "username": user,
+        "posts": Post.objects.filter(username=user).order_by('-time').values_list()
+    })
