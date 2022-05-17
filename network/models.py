@@ -22,4 +22,7 @@ class Following(models.Model):
     following_user = models.ForeignKey("User", related_name='followers', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
 
+    def __str__(self):
+        return f'{self.user} follow {self.following_user} at {self.created}'
+
     # TODO: read: https://stackoverflow.com/questions/58794639/how-to-make-follower-following-system-with-django-model

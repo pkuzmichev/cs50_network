@@ -83,12 +83,15 @@ def user(request, user):
 
 
 def follow(request, follow_user):
-   
+    if request.method == 'POST':
+        Following.objects.create(
+            user=User.objects.get(username=request.user),
+            following_user=User.objects.get(username=follow_user)
+        )
+    elif request.method == 'DELETE':
+        pass
+        # TODO: delete
 
-    Following.objects.create(
-        user=User.objects.get(username=request.user),
-        following_user=User.objects.get(username=follow_user)
-    )
-
+    # TODO: two following -> bug
 
     return HttpResponseRedirect(reverse('user', kwargs={'user': follow_user}))

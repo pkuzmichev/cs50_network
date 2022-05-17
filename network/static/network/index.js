@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     eventLike();
 
+    // TODO: like/unlike fetch
     buttonUnfollow.addEventListener("click", () => {
         // fetch
         console.log("click unfollow button");
@@ -15,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     function eventLike() {
         for (let i = 0; i < buttonLike.length; i++) {
-
             buttonLike[i].addEventListener("click", () => {
                 console.log('click');
                 if (buttonLike[i].classList.contains("liked")) {
@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     buttonLike[i].classList.add("liked");
                 }
             });
-
         }
     }
 })
