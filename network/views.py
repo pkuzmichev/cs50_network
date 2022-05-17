@@ -79,3 +79,25 @@ def user(request, user):
         "username": user,
         "posts": Post.objects.filter(username=user).order_by('-time').values_list()
     })
+
+def follow(request):
+    # user
+    user = request.user
+
+    print('user', user)
+
+    # TODO: get user from page
+
+    url = reverse('user', kwargs={'user': request.user})
+
+    return HttpResponseRedirect(url)
+    # if request.method == "POST":
+    #     print('follow POST')
+    #     return HttpResponse(status=200)
+    # # follow_user
+
+    # print('follow method')
+    # return HttpResponse(status=200)
+
+    # elif request.method == "DELETE":
+    #     print('unfollow')

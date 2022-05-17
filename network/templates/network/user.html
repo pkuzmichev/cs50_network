@@ -8,8 +8,17 @@
         <span class="badge badge-secondary">Followers: 0</span>
         <span class="badge badge-secondary">Following: 0</span>
     {% if user.username != username %}
-        <button type="button" class="btn btn-primary">Follow</button>
-        <button type="button" class="btn btn-danger">Unfollow</button>
+
+    {% comment %} form {% endcomment %}
+        <form action="{% url 'follow' %}">
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-primary follow">Follow</button>
+
+        </form>
+
+        {% comment %} <button type="button" class="btn btn-primary follow" href={% url 'follow' %}>Follow</button> {% endcomment %}
+        <button type="button" class="btn btn-danger unfollow">Unfollow</button>
     {% endif %}
 </h1>
 {% if user.is_authenticated %}

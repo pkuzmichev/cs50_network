@@ -10,23 +10,53 @@ document.addEventListener("DOMContentLoaded", function (event) {
     // }
 
     // TODO: its help me later
-    const button = document.querySelectorAll(".heart-like-button");
+    const buttonLike = document.querySelectorAll(".heart-like-button");
+    const buttonFollow = document.querySelector(".follow")
+    const buttonUnfollow = document.querySelector(".unfollow")
 
-    console.log('button like', button);
-    for (let i = 0; i < button.length; i++) {
+    eventLike();
 
-        button[i].addEventListener("click", () => {
-            console.log('click');
-            if (button[i].classList.contains("liked")) {
-                console.log('liked');
-                button[i].classList.remove("liked");
-                button[i].setAttribute('src', 'static/network/like.png');
-            } else {
-                console.log('add liked');
-                button[i].setAttribute('src', 'static/network/unlike.png');
-                button[i].classList.add("liked");
-            }
-        });
+    console.log("buttonFollow", buttonFollow);
+    console.log("buttonUnfollow", buttonUnfollow);
 
+
+    // buttonFollow.addEventListener("click", () => {
+    //     console.log("click follow button");
+    //     // fetch
+    //     fetch("/follow", {
+    //         method: "POST",
+    //         "credentials": 'include',
+    //         headers: {
+    //             'follow_user': 'pkuzmichev'
+    //         },
+    //         body: {
+    //             csrfmiddlewaretoken: '{{ csrf_token }}'
+    //         }
+    //     })
+    //     .then(response => console.log(response))
+    // })
+
+    buttonUnfollow.addEventListener("click", () => {
+        // fetch
+        console.log("click unfollow button");
+    })
+
+    function eventLike() {
+        for (let i = 0; i < buttonLike.length; i++) {
+
+            buttonLike[i].addEventListener("click", () => {
+                console.log('click');
+                if (buttonLike[i].classList.contains("liked")) {
+                    console.log('liked');
+                    buttonLike[i].classList.remove("liked");
+                    buttonLike[i].setAttribute('src', 'static/network/like.png');
+                } else {
+                    console.log('add liked');
+                    buttonLike[i].setAttribute('src', 'static/network/unlike.png');
+                    buttonLike[i].classList.add("liked");
+                }
+            });
+
+        }
     }
 })
