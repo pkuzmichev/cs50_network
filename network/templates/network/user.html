@@ -10,7 +10,7 @@
     {% if user.username != username %}
 
     {% comment %} form {% endcomment %}
-        <form action="{% url 'follow' %}">
+        <form action="{% url 'follow' username %}">
             {% csrf_token %}
 
             <button type="submit" class="btn btn-primary follow">Follow</button>
