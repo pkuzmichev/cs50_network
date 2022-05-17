@@ -8,17 +8,14 @@
         <span class="badge badge-secondary">Followers: 0</span>
         <span class="badge badge-secondary">Following: 0</span>
     {% if user.username != username %}
-
-    {% comment %} form {% endcomment %}
         <form action="{% url 'follow' username %}">
             {% csrf_token %}
-
+            {% comment %} if user == subs => unfollow {% endcomment %}
             <button type="submit" class="btn btn-primary follow">Follow</button>
+            <button type="button" class="btn btn-danger unfollow">Unfollow</button>
 
+            {% comment %} TODO: fix UI {% endcomment %}
         </form>
-
-        {% comment %} <button type="button" class="btn btn-primary follow" href={% url 'follow' %}>Follow</button> {% endcomment %}
-        <button type="button" class="btn btn-danger unfollow">Unfollow</button>
     {% endif %}
 </h1>
 {% if user.is_authenticated %}

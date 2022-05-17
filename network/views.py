@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from datetime import datetime
 
-from .models import User, Post
+from .models import Following, User, Post
 
 
 def index(request):
@@ -74,12 +74,21 @@ def new_post(request):
         )
     return HttpResponseRedirect(reverse("index"))
 
+
 def user(request, user):
     return render(request, "network/user.html", {
         "username": user,
         "posts": Post.objects.filter(username=user).order_by('-time').values_list()
     })
 
+
 def follow(request, follow_user):
-    # TODO: save to db
+   
+
+    Following.objects.create(
+        user=User.objects.get(username=request.user),
+        following_user=User.objects.get(username=follow_user)
+    )
+
+
     return HttpResponseRedirect(reverse('user', kwargs={'user': follow_user}))
