@@ -94,7 +94,7 @@ def user(request, user):
         'followers_count': followers_count,
         'following_count': following_count,
         "posts": Post.objects.filter(username=user)
-        .order_by('-time').values_list()
+            .order_by('-time').values_list()
     })
 
 
@@ -109,8 +109,8 @@ def follow(request, follow_user):
         print('Delete')
         Following.objects.filter(
             user_id=User.objects.get(username=request.user).pk,
-            following_user_id=User.objects.get(username=follow_user).pk
-            ).delete()
+            following_user_id=User.objects.get(username=follow_user)
+                .pk).delete()
        
     # create
     else:
@@ -132,9 +132,11 @@ def like(request):
 
 
 def following(request):
+    # get users following
+    # get posts from users
     # TODO: create following page
     # return posts from following
     return render(request, "network/index.html", {
-        "posts": Following.objects.filter(username=request.user.username)
+        "posts": Post.objects.filter(username=request.user.username)
         .order_by('-time').values_list()
     })
