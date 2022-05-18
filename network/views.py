@@ -10,7 +10,8 @@ from .models import Following, User, Post
 
 def index(request):
     return render(request, "network/index.html", {
-        "posts": Post.objects.filter(username=request.user.username).order_by('-time').values_list()
+        "posts": Post.objects.filter(username=request.user.username)
+        .order_by('-time').values_list()
     })
 
 
@@ -79,23 +80,21 @@ def user(request, user):
 
     is_following = Following.objects.filter(
         user_id=User.objects.get(username=request.user).pk,
-        following_user_id=User.objects.get(username=user).pk
-    )
+        following_user_id=User.objects.get(username=user).pk)
 
     followers_count = Following.objects.filter(
-        following_user_id=User.objects.get(username=user).pk
-    ).count()
+        following_user_id=User.objects.get(username=user).pk).count()
 
     following_count = Following.objects.filter(
-        user_id=User.objects.get(username=user).pk
-    ).count()
+        user_id=User.objects.get(username=user).pk).count()
 
     return render(request, "network/user.html", {
         "username": user,
         'is_following': is_following,
         'followers_count': followers_count,
         'following_count': following_count,
-        "posts": Post.objects.filter(username=user).order_by('-time').values_list()
+        "posts": Post.objects.filter(username=user)
+        .order_by('-time').values_list()
     })
 
 
@@ -103,8 +102,7 @@ def follow(request, follow_user):
 
     is_following = Following.objects.filter(
         user_id=User.objects.get(username=request.user).pk,
-        following_user_id=User.objects.get(username=follow_user).pk
-    ).count()
+        following_user_id=User.objects.get(username=follow_user).pk).count()
 
     # delete
     if is_following > 0:
@@ -112,7 +110,7 @@ def follow(request, follow_user):
         Following.objects.filter(
             user_id=User.objects.get(username=request.user).pk,
             following_user_id=User.objects.get(username=follow_user).pk
-        ).delete()
+            ).delete()
        
     # create
     else:
@@ -120,13 +118,23 @@ def follow(request, follow_user):
             print('POST')
             Following.objects.create(
                 user_id=User.objects.get(username=request.user).pk,
-                following_user=User.objects.get(username=follow_user)
-            )
+                following_user=User.objects.get(username=follow_user))
     
-    return HttpResponseRedirect(reverse('user', kwargs={'user': follow_user}))
+    return HttpResponseRedirect(reverse('user', kwargs={
+        'user': follow_user
+        }))
 
 
 def like(request):
     pass
     # TODO: POST
     # TODO: DELETE
+
+
+def following(request):
+    # TODO: create following page
+    # return posts from following
+    return render(request, "network/index.html", {
+        "posts": Following.objects.filter(username=request.user.username)
+        .order_by('-time').values_list()
+    })
