@@ -76,22 +76,57 @@ def new_post(request):
 
 
 def user(request, user):
+
+    is_following = Following.objects.filter(
+        user_id=User.objects.get(username=request.user).pk,
+        following_user_id=User.objects.get(username=user).pk
+    )
+
+    followers_count = Following.objects.filter(
+        following_user_id=User.objects.get(username=user).pk
+    ).count()
+
+    following_count = Following.objects.filter(
+        user_id=User.objects.get(username=user).pk
+    ).count()
+
     return render(request, "network/user.html", {
         "username": user,
+        'is_following': is_following,
+        'followers_count': followers_count,
+        'following_count': following_count,
         "posts": Post.objects.filter(username=user).order_by('-time').values_list()
     })
 
 
 def follow(request, follow_user):
-    if request.method == 'POST':
-        Following.objects.create(
-            user=User.objects.get(username=request.user),
-            following_user=User.objects.get(username=follow_user)
-        )
-    elif request.method == 'DELETE':
-        pass
-        # TODO: delete
 
-    # TODO: two following -> bug
+    is_following = Following.objects.filter(
+        user_id=User.objects.get(username=request.user).pk,
+        following_user_id=User.objects.get(username=follow_user).pk
+    ).count()
 
+    # delete
+    if is_following > 0:
+        print('Delete')
+        Following.objects.filter(
+            user_id=User.objects.get(username=request.user).pk,
+            following_user_id=User.objects.get(username=follow_user).pk
+        ).delete()
+       
+    # create
+    else:
+        if request.method == 'POST':
+            print('POST')
+            Following.objects.create(
+                user_id=User.objects.get(username=request.user).pk,
+                following_user=User.objects.get(username=follow_user)
+            )
+    
     return HttpResponseRedirect(reverse('user', kwargs={'user': follow_user}))
+
+
+def like(request):
+    pass
+    # TODO: POST
+    # TODO: DELETE

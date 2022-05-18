@@ -5,14 +5,19 @@
 {% comment %} view: username, followers, following, follow button {% endcomment %}
 <h1 class="header">{{ username }}
     {% comment %} TODO: add field for db user {% endcomment %}
-        <span class="badge badge-secondary">Followers: 0</span>
-        <span class="badge badge-secondary">Following: 0</span>
+        <span class="badge badge-secondary">Followers: {{ followers_count }}</span>
+        <span class="badge badge-secondary">Following: {{ following_count }}</span>
     {% if user.username != username %}
-        <form action="{% url 'follow' username %}">
+        <form action="{% url 'follow' username %}" method='POST'>
             {% csrf_token %}
             {% comment %} if user == subs => unfollow {% endcomment %}
-            <button type="submit" class="btn btn-primary follow">Follow</button>
-            <button type="button" class="btn btn-danger unfollow">Unfollow</button>
+            {% if is_following %}
+                <button type="submit" class="btn btn-danger unfollow">Unfollow</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary follow">Follow</button>
+            {% endif %}
+            {% comment %} <button type="submit" class="btn btn-primary follow">Follow</button> {% endcomment %}
+            {% comment %} <button type="button" class="btn btn-danger unfollow">Unfollow</button> {% endcomment %}
 
             {% comment %} TODO: fix UI {% endcomment %}
         </form>
