@@ -19,18 +19,18 @@
 {% for post in posts %}
 <div class="new-post border">
     {% comment %} username {% endcomment %}
-    <a href="{% url 'user' post.2 %}"><b>{{ post.2 }}</b></a>
+    <a href="{% url 'user' post.3 %}"><b>{{ post.3 }}</b></a>
     <br><br>
     <a href=''>Edit</a>
     {% comment %} text {% endcomment %}
     <br>
-    {{ post.3 }}
+    {{ post.4 }}
     <br>
     {% comment %} time {% endcomment %}
     <div class="gray">{{ post.1|date:"d/m/Y G:i" }}
         <br>
         <img src="static/network/unlike.png" class="heart-like-button liked" id="heart" width="16" height="16">
-        <span style="vertical-align: middle;">{{ post.4 }}</span>
+        <span style="vertical-align: middle;">{{ post.5 }}</span>
         <br>
         Comment
     </div>

@@ -9,6 +9,7 @@ class User(AbstractUser):
     pass
 
 class Post(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
     username = models.CharField(max_length=30)
     time = models.DateTimeField(auto_created=True, auto_now=True)
     text = models.CharField(max_length=148)

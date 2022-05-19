@@ -70,6 +70,7 @@ def register(request):
 def new_post(request):
     if request.method == "POST":
         Post.objects.create(
+            user_id=request.user.pk,
             username=request.user.username,
             text=request.POST['new_post']
         )
@@ -143,8 +144,7 @@ def following(request):
     print('filter', filter.values_list('following_user_id'))
     # TODO:
     # > get user id follow
-    # get username by user_id
-    # get all posts from user
+    # get all posts from user by user_id
 
 
     # print('following_user_id', filter.get('following_user_id'))
