@@ -132,6 +132,14 @@ def like(request):
 
 
 def following(request):
+
+    # get user id by username
+    f = Following.objects.filter(user_id=request.user.pk)
+    print(f)
+    print(f.values_list()[0][2])
+
+    # TODO: https://docs.djangoproject.com/en/4.0/topics/db/queries/
+
     # get users following
     # get posts from users
     # TODO: create following page
