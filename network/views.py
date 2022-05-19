@@ -134,9 +134,21 @@ def like(request):
 def following(request):
 
     # get user id by username
-    f = Following.objects.filter(user_id=request.user.pk)
-    print(f)
-    print(f.values_list()[0][2])
+    # f = Following.objects.filter(user_id=request.user.pk)
+    # print(f)
+    # print(f.values_list()[0][2])
+
+    filter = Following.objects.all().filter(user_id=request.user.pk)
+
+    print('filter', filter.values_list('following_user_id'))
+    # TODO:
+    # > get user id follow
+    # get username by user_id
+    # get all posts from user
+
+
+    # print('following_user_id', filter.get('following_user_id'))
+    # print('following_user', filter['following_user'])
 
     # TODO: https://docs.djangoproject.com/en/4.0/topics/db/queries/
 
