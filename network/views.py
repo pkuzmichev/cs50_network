@@ -134,6 +134,8 @@ def like(request):
 
 
 def following(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
     following_users = Following.objects.all().filter(
         user_id=request.user.pk).values_list('following_user_id')[0]
     all_following_posts = Post.objects.all().filter(user_id=following_users)
