@@ -133,30 +133,10 @@ def like(request):
 
 
 def following(request):
-
-    # get user id by username
-    # f = Following.objects.filter(user_id=request.user.pk)
-    # print(f)
-    # print(f.values_list()[0][2])
-
-    filter = Following.objects.all().filter(user_id=request.user.pk)
-
-    print('filter', filter.values_list('following_user_id'))
-    # TODO:
-    # > get user id follow
-    # get all posts from user by user_id
-
-
-    # print('following_user_id', filter.get('following_user_id'))
-    # print('following_user', filter['following_user'])
-
-    # TODO: https://docs.djangoproject.com/en/4.0/topics/db/queries/
-
-    # get users following
-    # get posts from users
-    # TODO: create following page
-    # return posts from following
+    # TODO: add Following header
+    following_users = Following.objects.all().filter(
+        user_id=request.user.pk).values_list('following_user_id')[0]
+    all_following_posts = Post.objects.all().filter(user_id=following_users)
     return render(request, "network/index.html", {
-        "posts": Post.objects.filter(username=request.user.username)
-        .order_by('-time').values_list()
+        "posts": all_following_posts.order_by('-time').values_list()
     })
