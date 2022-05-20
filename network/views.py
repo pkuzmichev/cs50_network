@@ -10,6 +10,7 @@ from .models import Following, User, Post
 
 def index(request):
     return render(request, "network/index.html", {
+        "header": "All Posts",
         "posts": Post.objects.filter(username=request.user.username)
         .order_by('-time').values_list()
     })
@@ -133,10 +134,13 @@ def like(request):
 
 
 def following(request):
-    # TODO: add Following header
     following_users = Following.objects.all().filter(
         user_id=request.user.pk).values_list('following_user_id')[0]
     all_following_posts = Post.objects.all().filter(user_id=following_users)
     return render(request, "network/index.html", {
+        "header": "Following",
         "posts": all_following_posts.order_by('-time').values_list()
     })
+
+# TODO:
+# start pagination
