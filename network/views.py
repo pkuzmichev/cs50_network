@@ -1,18 +1,28 @@
+import imp
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.paginator import Paginator
 from datetime import datetime
 
 from .models import Following, User, Post
 
 
 def index(request):
+    posts = Post.objects.filter(
+        username=request.user.username).order_by('-time').values_list()
+
+    # pagination
+    paginator = Paginator(posts, 10)
+
+    print('paginator.count', paginator.count)
+    print('get page', request.GET.get('page'))
+
     return render(request, "network/index.html", {
         "header": "All Posts",
-        "posts": Post.objects.filter(username=request.user.username)
-        .order_by('-time').values_list()
+        "posts": posts
     })
 
 
@@ -143,6 +153,7 @@ def following(request):
         "header": "Following",
         "posts": all_following_posts.order_by('-time').values_list()
     })
+
 
 # TODO:
 # start pagination
