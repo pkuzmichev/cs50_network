@@ -18,11 +18,16 @@ def index(request):
     paginator = Paginator(posts, 10)
 
     print('paginator.count', paginator.count)
+    print('num_pages', paginator.num_pages)
+    print('get page', paginator.get_page(1))
+    print('page', paginator.page(1))
+    print('get_elided_page_range', paginator.get_elided_page_range(1))
     print('get page', request.GET.get('page'))
 
     return render(request, "network/index.html", {
         "header": "All Posts",
         "posts": posts
+        # "page_obj": paginator.get_page(page)
     })
 
 
