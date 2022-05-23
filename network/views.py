@@ -13,21 +13,13 @@ from .models import Following, User, Post
 def index(request):
     posts = Post.objects.filter(
         username=request.user.username).order_by('-time').values_list()
-
-    # pagination
     paginator = Paginator(posts, 10)
-
-    print('paginator.count', paginator.count)
-    print('num_pages', paginator.num_pages)
-    print('get page', paginator.get_page(1))
-    print('page', paginator.page(1))
-    print('get_elided_page_range', paginator.get_elided_page_range(1))
-    print('get page', request.GET.get('page'))
+    page = request.GET.get('page', 1)
 
     return render(request, "network/index.html", {
         "header": "All Posts",
-        "posts": posts
-        # "page_obj": paginator.get_page(page)
+        "posts": posts,
+        "page_obj": paginator.get_page(page)
     })
 
 
