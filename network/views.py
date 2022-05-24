@@ -86,6 +86,9 @@ def new_post(request):
 
 
 def user(request, user):
+    posts = Post.objects.filter(username=user).order_by('-time').values_list()
+    paginator = Paginator(posts, 10)
+    page = request.GET.get('page', 1)
 
     is_following = Following.objects.filter(
         user_id=User.objects.get(username=request.user).pk,
@@ -102,8 +105,8 @@ def user(request, user):
         'is_following': is_following,
         'followers_count': followers_count,
         'following_count': following_count,
-        "posts": Post.objects.filter(username=user)
-            .order_by('-time').values_list()
+        "posts": posts,
+        "page_obj": paginator.get_page(page)
     })
 
 
@@ -141,16 +144,22 @@ def like(request):
 
 
 def following(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("index"))
     following_users = Following.objects.all().filter(
         user_id=request.user.pk).values_list('following_user_id')[0]
     all_following_posts = Post.objects.all().filter(user_id=following_users)
+    posts = all_following_posts.order_by('-time').values_list()
+
+    paginator = Paginator(posts, 10)
+    page = request.GET.get('page', 1)
+    
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
     return render(request, "network/index.html", {
         "header": "Following",
-        "posts": all_following_posts.order_by('-time').values_list()
+        "posts": posts,
+        "page_obj": paginator.get_page(page)
     })
 
 
 # TODO:
-# start pagination
+# edit post
