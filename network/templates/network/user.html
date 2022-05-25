@@ -39,11 +39,14 @@
 {% endif %}
 
 {% for post in page_obj %}
-<div class="new-post border">
+<div class="new-post post {{ post.0 }} border">
     {% comment %} username {% endcomment %}
     <a href="{% url 'user' post.3 %}"><b>{{ post.3 }}</b></a>
-    <br><br>
-    <a class='edit' href='#'>Edit</a>
+    <br>
+    {% if user.username == post.3 %}
+    <a class='edit' id='{{ post.0 }}' href='#'>Edit</a>
+    {% else %}
+    {% endif %}
     {% comment %} text {% endcomment %}
     <br>
     {{ post.4 }}
