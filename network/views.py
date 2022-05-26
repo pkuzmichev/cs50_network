@@ -161,5 +161,22 @@ def following(request):
     })
 
 
+def edit(request):
+    print('js fetch')
+    if request.method == "PUT":
+        print('PUT', request.headers['post-id'])
+        print('update', request.headers['updateText'])
+        # Post.objects.filter(
+        #     user_id=request.user.pk,
+        #     username=request.user.username,
+        #     text=request.POST['new_post']
+        # )
+        Post.objects.filter(
+            id=request.headers['post-id']
+        ).update(text=request.headers['updateText'])
+    return HttpResponseRedirect(reverse("index"))
+    pass
+
+
 # TODO:
 # edit post
