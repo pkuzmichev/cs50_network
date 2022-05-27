@@ -138,7 +138,11 @@ def follow(request, follow_user):
 
 
 def like(request):
-    pass
+    print('like/unlike method')
+    if request.method == "PUT":
+        pass
+    elif request.method == "DELETE":
+        pass
     # TODO: POST
     # TODO: DELETE
 
@@ -175,8 +179,3 @@ def edit(request):
             id=request.headers['post-id']
         ).update(text=request.headers['updateText'])
     return HttpResponseRedirect(reverse("index"))
-    pass
-
-
-# TODO:
-# edit post

@@ -9,6 +9,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     eventLike();
     editPost();
+    like();
+    unlike();
+
+    function like() {
+        for (let i = 0; i < buttonLike.length; i++) {
+            buttonLike[i].addEventListener("click", () => {
+                console.log('clasName', buttonLike[i].className);
+                if (buttonLike[i].classList.contains('liked')) {
+                    console.log('liked');
+                    // TODO: like request and change style
+                } else {
+                    // TODO: unlike request and change style
+                }
+            })
+        }
+    }
+
+    function unlike() {
+
+    }
 
     // TODO: like/unlike fetch
     // buttonUnfollow.addEventListener("click", () => {
