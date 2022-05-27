@@ -16,9 +16,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     //     console.log("click unfollow button");
     // })
 
-    // TODO:
-    // 1. backend
-    // 2. security
     function editPost() {
         for (let i = 0; i < editPostLink.length; i++) {
             editPostLink[i].addEventListener("click", () => {
@@ -26,27 +23,27 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 const editPost = document.getElementById(editPostLink[i].id);
                 editPost.innerHTML = post.outerHTML;
                 textPost = document.querySelector('.text-' + editPostLink[i].id);
-                editPost.innerHTML = `<div class="form-floating form-edit-post"><textarea class="form-control" id="floatingTextarea2" style="height: 10%; width: 50%;" maxlength="148" required name='new_post' autofocus>` + textPost.textContent + `</textarea></div><input class="btn btn-primary save" type="submit" style="margin-top: 10px;" value="Save">`;
-                // TODO: submit form
-                updatePost(editPostLink[i].id, editPost.outerText);
+                editPost.innerHTML = `<div class="form-floating form-edit-post"><textarea class="form-control edit-form" id="floatingTextarea2" style="height: 10%; width: 50%;" maxlength="148" required name='new_post' autofocus>` + textPost.textContent + `</textarea></div><input class="btn btn-primary save" type="submit" style="margin-top: 10px;" value="Save">`;
+                updatePost(editPostLink[i].id);
 
             })
         }
     }
 
-    function updatePost(idPost, updateText) {
+    function updatePost(idPost) {
         const saveButtons = document.querySelectorAll(".save");
         console.log(saveButtons);
         for (let i = 0; saveButtons.length; i++) {
             var csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value
             saveButtons[i].addEventListener("click", () => {
-                console.log('update text', updateText);
+                const editForm = document.querySelector('.edit-form');
+                console.log('update text', editForm.value);
                 fetch('/edit', {
                     method: "PUT",
                     headers: { 
                         'X-CSRFToken': csrftoken,
                         'post-id': idPost,
-                        'updateText': updateText
+                        'updateText': editForm.value
                     }
                 })
                 .then(response => console.log('fetch'))
