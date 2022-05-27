@@ -9,17 +9,37 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     eventLike();
     editPost();
-    like();
-    unlike();
+    // like();
+    // unlike();
 
     function like() {
         for (let i = 0; i < buttonLike.length; i++) {
             buttonLike[i].addEventListener("click", () => {
-                console.log('clasName', buttonLike[i].className);
+                console.log('className', buttonLike[i].className);
+                var csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value
+                console.log('true or false?', buttonLike[i].classList.contains('liked'));
                 if (buttonLike[i].classList.contains('liked')) {
-                    console.log('liked');
+                    console.log('unliked');
+                    fetch('/like', {
+                        method: "PUT",
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                            // 'post-id': idPost,
+                            // 'updateText': editForm.value
+                        }
+                    })
+                        .then(console.log('request like'))
+                    // buttonLike[i].classList.remove('liked');
                     // TODO: like request and change style
                 } else {
+                    fetch('/like', {
+                        method: "DELETE",
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        }
+                    })
+                        .then(console.log('request unlike'))
+                    console.log('unliked');
                     // TODO: unlike request and change style
                 }
             })
@@ -60,44 +80,79 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 console.log('update text', editForm.value);
                 fetch('/edit', {
                     method: "PUT",
-                    headers: { 
+                    headers: {
                         'X-CSRFToken': csrftoken,
                         'post-id': idPost,
                         'updateText': editForm.value
                     }
                 })
-                .then(location.reload())
+                    .then(location.reload())
             })
         }
 
     }
 
 
-        // buttonFollow.addEventListener("click", () => {
-     //     console.log("click follow button");
-     //     // fetch
-     //     fetch("/follow", {
-     //         method: "POST",
-     //         "credentials": 'include',
-     //         headers: {
-     //             'follow_user': 'pkuzmichev'
-     //         },
-     //         body: {
-     //             csrfmiddlewaretoken: '{{ csrf_token }}'
-     //         }
-     //     })
-     //     .then(response => console.log(response))
-     // })
+    // buttonFollow.addEventListener("click", () => {
+    //     console.log("click follow button");
+    //     // fetch
+    //     fetch("/follow", {
+    //         method: "POST",
+    //         "credentials": 'include',
+    //         headers: {
+    //             'follow_user': 'pkuzmichev'
+    //         },
+    //         body: {
+    //             csrfmiddlewaretoken: '{{ csrf_token }}'
+    //         }
+    //     })
+    //     .then(response => console.log(response))
+    // })
 
     function eventLike() {
         for (let i = 0; i < buttonLike.length; i++) {
             buttonLike[i].addEventListener("click", () => {
-                if (buttonLike[i].classList.contains("liked")) {
-                    buttonLike[i].classList.remove("liked");
-                    buttonLike[i].setAttribute('src', '/static/network/like.png');
-                } else {
-                    buttonLike[i].setAttribute('src', '/static/network/unlike.png');
+
+                var csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+                if (buttonLike[i].classList.contains("unliked")) {
+                    buttonLike[i].classList.remove("unliked");
                     buttonLike[i].classList.add("liked");
+                    buttonLike[i].setAttribute('src', '/static/network/like.png');
+
+
+                    console.log('className', buttonLike[i].className);
+                    console.log('true or false?', buttonLike[i].classList.contains('liked'));
+                    if (buttonLike[i].classList.contains('liked')) {
+                        console.log('unliked');
+                        fetch('/like', {
+                            method: "PUT",
+                            headers: {
+                                'X-CSRFToken': csrftoken
+                                // TODO: post id from likes buttons
+                                // TODO: implementation likes by users
+                                // 'post-id': idPost,
+                                // 'updateText': editForm.value
+                            }
+                        })
+                            .then(console.log('request like'))
+                        // buttonLike[i].classList.remove('liked');
+                        // TODO: like request and change style
+                    }
+
+                } else {
+
+                    fetch('/like', {
+                        method: "DELETE",
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        }
+                    })
+                        .then(console.log('request unlike'))
+                    console.log('unliked');
+                    // TODO: unlike request and change style
+                    buttonLike[i].setAttribute('src', '/static/network/unlike.png');
+                    buttonLike[i].classList.remove("liked");
+                    buttonLike[i].classList.add("unliked");
                 }
             });
         }

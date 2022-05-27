@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator
 from datetime import datetime
+from django.db.models import Count
 
 from .models import Following, User, Post
 
@@ -140,9 +141,11 @@ def follow(request, follow_user):
 def like(request):
     print('like/unlike method')
     if request.method == "PUT":
-        pass
+        print('PUT')
+        Post.objects.filter(id=request.headers['post-id']).update(likes=Count('likes'))
     elif request.method == "DELETE":
-        pass
+        print('DELETE')
+    return HttpResponseRedirect(reverse("index"))
     # TODO: POST
     # TODO: DELETE
 
