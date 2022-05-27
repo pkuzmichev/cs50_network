@@ -46,8 +46,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         'updateText': editForm.value
                     }
                 })
-                .then(response => console.log('fetch'))
-                console.log('updatePost()');
+                .then(location.reload())
             })
         }
 
