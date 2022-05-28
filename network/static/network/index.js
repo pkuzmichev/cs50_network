@@ -127,10 +127,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         fetch('/like', {
                             method: "PUT",
                             headers: {
-                                'X-CSRFToken': csrftoken
+                                'X-CSRFToken': csrftoken,
                                 // TODO: post id from likes buttons
                                 // TODO: implementation likes by users
-                                // 'post-id': idPost,
+                                'post-id': '38',
                                 // 'updateText': editForm.value
                             }
                         })

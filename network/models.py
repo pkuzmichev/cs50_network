@@ -14,6 +14,8 @@ class Post(models.Model):
     time = models.DateTimeField(auto_created=True, auto_now=True)
     text = models.CharField(max_length=148)
     likes = models.IntegerField(default=0)
+    users_likes = models.ManyToManyField(User, related_name='users_likes')
+    # TODO: likes count
 
     def __str__(self):
         return self.text
