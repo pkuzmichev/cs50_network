@@ -142,7 +142,12 @@ def like(request):
     print('like/unlike method')
     if request.method == "PUT":
         print('PUT')
-        Post.objects.filter(id=request.headers['post-id']).update(likes=F('likes') + 1)
+        like_post = Post.objects.filter(id=request.headers['post-id'])
+        like_post.update(likes=F('likes') + 1)
+        print('like_post', like_post.values)
+        
+        # Post.objects.filter(
+            # id=request.headers['post-id']).add(User.objects.get(username=request.user).pk)
     elif request.method == "DELETE":
         print('DELETE')
         Post.objects.filter(
