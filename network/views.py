@@ -139,13 +139,17 @@ def follow(request, follow_user):
 
 
 def like(request):
-    print('like/unlike method')
     if request.method == "PUT":
         print('PUT')
         like_post = Post.objects.filter(id=request.headers['post-id'])
+        get_like_post = Post.objects.get(id=request.headers['post-id'])
         like_post.update(likes=F('likes') + 1)
         print('like_post', like_post.values)
-        
+        print('get like post', get_like_post)
+        get_like_post.post_id = 30
+        get_like_post.user_id = 1
+        get_like_post.save()
+
         # Post.objects.filter(
             # id=request.headers['post-id']).add(User.objects.get(username=request.user).pk)
     elif request.method == "DELETE":
