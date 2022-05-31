@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from datetime import datetime
 from django.db.models import F
 
-from .models import Following, User, Post
+from .models import Following, User, Post, PostLikes
 
 
 def index(request):
@@ -141,14 +141,13 @@ def follow(request, follow_user):
 def like(request):
     if request.method == "PUT":
         print('PUT')
-        like_post = Post.objects.filter(id=request.headers['post-id'])
-        get_like_post = Post.objects.get(id=request.headers['post-id'])
-        like_post.update(likes=F('likes') + 1)
-        print('like_post', like_post.values)
-        print('get like post', get_like_post)
-        get_like_post.post_id = 30
-        get_like_post.user_id = 1
-        get_like_post.save()
+        count_likes_post = Post.objects.filter(id=request.headers['post-id'])
+        count_likes_post.update(likes=F('likes') + 1)
+        post_likes = PostLikes.objects.create(
+            post_id=request.headers['post-id'], user_id=request.user.pk)
+
+        # TODO:
+        # if post likes containts -> pass
 
         # Post.objects.filter(
             # id=request.headers['post-id']).add(User.objects.get(username=request.user).pk)

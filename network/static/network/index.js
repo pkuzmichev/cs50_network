@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                                 'X-CSRFToken': csrftoken,
                                 // TODO: post id from likes buttons
                                 // TODO: implementation likes by users
-                                'post-id': '38',
+                                'post-id': '2',
                                 // 'updateText': editForm.value
                             }
                         })
