@@ -118,6 +118,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     buttonLike[i].classList.remove("unliked");
                     buttonLike[i].classList.add("liked");
                     buttonLike[i].setAttribute('src', '/static/network/like.png');
+                    
+                    console.log('id from like button', buttonLike[i].id);
+
 
 
                     console.log('className', buttonLike[i].className);
@@ -128,9 +131,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
                             method: "PUT",
                             headers: {
                                 'X-CSRFToken': csrftoken,
-                                // TODO: post id from likes buttons
-                                // TODO: implementation likes by users
-                                'post-id': '2',
+                                // TODO: 409 status
+                                'post-id': buttonLike[i].id,
                                 // 'updateText': editForm.value
                             }
                         })

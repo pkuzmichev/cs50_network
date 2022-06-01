@@ -141,13 +141,18 @@ def follow(request, follow_user):
 def like(request):
     if request.method == "PUT":
         print('PUT')
-        count_likes_post = Post.objects.filter(id=request.headers['post-id'])
-        count_likes_post.update(likes=F('likes') + 1)
-        post_likes = PostLikes.objects.create(
-            post_id=request.headers['post-id'], user_id=request.user.pk)
 
         # TODO:
-        # if post likes containts -> pass
+        # if post likes containts -> pass -> 400
+        if PostLikes.objects.filter(
+                post_id=request.headers['post-id'], user_id=request.user.pk):
+            # 409 response
+            return HttpResponse(status=409)
+        else:
+            Post.objects.filter(
+                id=request.headers['post-id']).update(likes=F('likes') + 1)
+            PostLikes.objects.create(
+                post_id=request.headers['post-id'], user_id=request.user.pk)
 
         # Post.objects.filter(
             # id=request.headers['post-id']).add(User.objects.get(username=request.user).pk)
