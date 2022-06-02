@@ -9,8 +9,28 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     eventLike();
     editPost();
+    getLikes();
     // like();
     // unlike();
+
+    function getLikes() {
+        for (let i = 0; i < buttonLike.length; i++) {
+            buttonLike[i].addEventListener("load", () => {
+                console.log('show');
+                var csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value
+                fetch('/get_likes', {
+                    method: "GET",
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                        // 'post-id': idPost,
+                        // 'updateText': editForm.value
+                    }
+                })
+                // TODO: then
+                    .then(console.log('get likes'))
+            })
+        }
+    }
 
     function like() {
         for (let i = 0; i < buttonLike.length; i++) {

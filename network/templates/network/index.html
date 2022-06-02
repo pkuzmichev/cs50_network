@@ -32,11 +32,7 @@
     {% comment %} time {% endcomment %}
     <div class="gray">{{ post.1|date:"d/m/Y G:i" }}
         <br>
-        {% if liked_user %}
-            <img src="static/network/unlike.png" class="heart-like-button unliked" id="{{ post.0 }}" width="16" height="16">
-        {% else %}
-            <img src="static/network/like.png" class="heart-like-button liked" id="{{ post.0 }}" width="16" height="16">
-        {% endif %}
+        <img src="static/network/unlike.png" class="heart-like-button unliked" id="{{ post.0 }}" width="16" height="16">
         <span style="vertical-align: middle;">{{ post.5 }}</span>
         <br>
         Comment
