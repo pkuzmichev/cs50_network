@@ -112,38 +112,29 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function eventLike() {
         for (let i = 0; i < buttonLike.length; i++) {
             buttonLike[i].addEventListener("click", () => {
-
                 var csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
                 if (buttonLike[i].classList.contains("unliked")) {
                     buttonLike[i].classList.remove("unliked");
                     buttonLike[i].classList.add("liked");
                     buttonLike[i].setAttribute('src', '/static/network/like.png');
-                    
-                    console.log('id from like button', buttonLike[i].id);
-
-
-
-                    console.log('className', buttonLike[i].className);
-                    console.log('true or false?', buttonLike[i].classList.contains('liked'));
                     if (buttonLike[i].classList.contains('liked')) {
                         console.log('unliked');
                         fetch('/like', {
                             method: "PUT",
                             headers: {
                                 'X-CSRFToken': csrftoken,
-                                // TODO: 409 status
-                                // TODO: modal error
-                                'post-id': buttonLike[i].id,
-                                // 'updateText': editForm.value
+                                'post-id': buttonLike[i].id
                             }
                         })
-                            .then(console.log('request like'))
-                        // buttonLike[i].classList.remove('liked');
-                        // TODO: like request and change style
+                            .then(res => {
+                                if (res.status===200) {
+                                    null;
+                                } else if (res.status===409) {
+                                    alert("You've already liked it");
+                                }
+                            })
                     }
-
                 } else {
-
                     fetch('/like', {
                         method: "DELETE",
                         headers: {
@@ -151,9 +142,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                             'post-id': buttonLike[i].id
                         }
                     })
-                        .then(console.log('request unlike'))
-                    console.log('unliked');
-                    // TODO: unlike request and change style
+                        .then(null);
                     buttonLike[i].setAttribute('src', '/static/network/unlike.png');
                     buttonLike[i].classList.remove("liked");
                     buttonLike[i].classList.add("unliked");

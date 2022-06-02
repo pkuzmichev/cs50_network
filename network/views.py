@@ -16,11 +16,20 @@ def index(request):
         username=request.user.username).order_by('-time').values_list()
     paginator = Paginator(posts, 10)
     page = request.GET.get('page', 1)
+    is_liked_user = False
+    # if PostLikes.objects.filter(
+    #         post_id=request.headers['post-id'], user_id=request.user.pk):
+    #         is_liked_user = True
+
+    for post in range(len(posts)):
+        print('post', type(post))
+
 
     return render(request, "network/index.html", {
         "header": "All Posts",
         "posts": posts,
-        "page_obj": paginator.get_page(page)
+        "page_obj": paginator.get_page(page),
+        "liked_user": is_liked_user
     })
 
 
