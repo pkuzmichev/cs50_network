@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                             headers: {
                                 'X-CSRFToken': csrftoken,
                                 // TODO: 409 status
+                                // TODO: modal error
                                 'post-id': buttonLike[i].id,
                                 // 'updateText': editForm.value
                             }
@@ -146,7 +147,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     fetch('/like', {
                         method: "DELETE",
                         headers: {
-                            'X-CSRFToken': csrftoken
+                            'X-CSRFToken': csrftoken,
+                            'post-id': buttonLike[i].id
                         }
                     })
                         .then(console.log('request unlike'))

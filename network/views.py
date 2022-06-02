@@ -140,13 +140,10 @@ def follow(request, follow_user):
 
 def like(request):
     if request.method == "PUT":
-        print('PUT')
-
-        # TODO:
-        # if post likes containts -> pass -> 400
         if PostLikes.objects.filter(
                 post_id=request.headers['post-id'], user_id=request.user.pk):
-            # 409 response
+            # TODO: 409 response and like
+            # TODO: clear db
             return HttpResponse(status=409)
         else:
             Post.objects.filter(
@@ -154,14 +151,16 @@ def like(request):
             PostLikes.objects.create(
                 post_id=request.headers['post-id'], user_id=request.user.pk)
 
-        # Post.objects.filter(
-            # id=request.headers['post-id']).add(User.objects.get(username=request.user).pk)
     elif request.method == "DELETE":
-        print('DELETE')
-        Post.objects.filter(
-            id=request.headers['post-id']).update(likes=F('likes') - 1)
+        if PostLikes.objects.filter(
+                post_id=request.headers['post-id'], user_id=request.user.pk):
+                    post_likes = PostLikes.objects.filter(
+                        post_id=request.headers['post-id'], user_id=request.user.pk)
+                    post_likes.delete()
+                    Post.objects.filter(
+                        id=request.headers['post-id']).update(likes=F('likes') - 1)
     return HttpResponseRedirect(reverse("index"))
-    # TODO: users likes
+
 
 
 def following(request):
