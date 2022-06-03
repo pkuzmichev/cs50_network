@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     hiddenPaginator();
 
     function hiddenPaginator() {
-        console.log('pagination.value', pageItem.length);
         if (pageItem.length == 1) {
             pagination.style.display = 'none';
         }
