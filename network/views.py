@@ -1,7 +1,7 @@
 import imp
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator
@@ -118,7 +118,6 @@ def follow(request, follow_user):
 
     # delete
     if is_following > 0:
-        print('Delete')
         Following.objects.filter(
             user_id=User.objects.get(username=request.user).pk,
             following_user_id=User.objects.get(username=follow_user)
@@ -127,7 +126,6 @@ def follow(request, follow_user):
     # create
     else:
         if request.method == 'POST':
-            print('POST')
             Following.objects.create(
                 user_id=User.objects.get(username=request.user).pk,
                 following_user=User.objects.get(username=follow_user))
@@ -136,15 +134,24 @@ def follow(request, follow_user):
         'user': follow_user
         }))
 
+
 def get_likes(request):
-    pass
+    is_liked = False
+    if PostLikes.objects.filter(
+                post_id=request.headers['post-id']):
+                is_liked = True
+    else:
+        is_liked = False
+    data = {}
+    response = JsonResponse(data, status=200)
+    response['is_liked'] = is_liked
+    return response
+
 
 def like(request):
     if request.method == "PUT":
         if PostLikes.objects.filter(
                 post_id=request.headers['post-id'], user_id=request.user.pk):
-            # TODO: 409 response and like
-            # TODO: clear db
             return HttpResponse(status=409)
         else:
             Post.objects.filter(
@@ -163,10 +170,12 @@ def like(request):
     return HttpResponseRedirect(reverse("index"))
 
 
-
 def following(request):
-    following_users = Following.objects.all().filter(
-        user_id=request.user.pk).values_list('following_user_id')[0]
+    try:
+        following_users = Following.objects.all().filter(
+            user_id=request.user.pk).values_list('following_user_id')[0]
+    except:
+        return HttpResponseRedirect(reverse("index"))
     all_following_posts = Post.objects.all().filter(user_id=following_users)
     posts = all_following_posts.order_by('-time').values_list()
 
@@ -183,15 +192,7 @@ def following(request):
 
 
 def edit(request):
-    print('js fetch')
     if request.method == "PUT":
-        print('PUT', request.headers['post-id'])
-        print('update', request.headers['updateText'])
-        # Post.objects.filter(
-        #     user_id=request.user.pk,
-        #     username=request.user.username,
-        #     text=request.POST['new_post']
-        # )
         Post.objects.filter(
             id=request.headers['post-id']
         ).update(text=request.headers['updateText'])

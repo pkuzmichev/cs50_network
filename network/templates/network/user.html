@@ -4,7 +4,6 @@
 
 {% comment %} view: username, followers, following, follow button {% endcomment %}
 <h1 class="header">{{ username }}
-    {% comment %} TODO: add field for db user {% endcomment %}
         <span class="badge badge-secondary">Followers: {{ followers_count }}</span>
         <span class="badge badge-secondary">Following: {{ following_count }}</span>
     {% if user.username != username %}
@@ -16,10 +15,6 @@
             {% else %}
                 <button type="submit" class="btn btn-primary follow">Follow</button>
             {% endif %}
-            {% comment %} <button type="submit" class="btn btn-primary follow">Follow</button> {% endcomment %}
-            {% comment %} <button type="button" class="btn btn-danger unfollow">Unfollow</button> {% endcomment %}
-
-            {% comment %} TODO: fix UI {% endcomment %}
         </form>
     {% endif %}
 </h1>
@@ -39,25 +34,24 @@
 {% endif %}
 
 {% for post in page_obj %}
-<div class="new-post post {{ post.0 }} border">
+<div class="new-post post border" id="{{ post.0 }}">
     {% comment %} username {% endcomment %}
     <a href="{% url 'user' post.3 %}"><b>{{ post.3 }}</b></a>
-    <br>
+    <br><br>
     {% if user.username == post.3 %}
     <a class='edit' id='{{ post.0 }}' href='#'>Edit</a>
     {% else %}
     {% endif %}
     {% comment %} text {% endcomment %}
     <br>
-    {{ post.4 }}
+    <a class='text-{{ post.0 }}'>{{ post.4 }}</a>
     <br>
     {% comment %} time {% endcomment %}
     <div class="gray">{{ post.1|date:"d/m/Y G:i" }}
         <br>
-        <img src="/static/network/unlike.png" class="heart-like-button liked" id="heart" width="16" height="16">
-        <span style="vertical-align: middle;">{{ post.5 }}</span>
+        <img class="heart-like-button" id="{{ post.0 }}" width="16" height="16">
+        <span class="likes-counter" style="vertical-align: middle;">{{ post.5 }}</span>
         <br>
-        Comment
     </div>
 </div>
 {% endfor %}

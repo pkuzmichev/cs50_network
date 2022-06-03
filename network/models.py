@@ -15,7 +15,6 @@ class Post(models.Model):
     time = models.DateTimeField(auto_created=True, auto_now=True)
     text = models.CharField(max_length=148)
     likes = models.IntegerField(default=0)
-    # TODO: likes count
 
     def __str__(self):
         return self.text
@@ -34,5 +33,3 @@ class Following(models.Model):
 
     def __str__(self):
         return f'{self.user} follow {self.following_user} at {self.created}'
-
-    # TODO: read: https://stackoverflow.com/questions/58794639/how-to-make-follower-following-system-with-django-model
